@@ -1,0 +1,82 @@
+$margin: 5px;
+
+span {
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+    align-items: center;
+    background-color: rgb(200, 72, 226);    
+    color: #eee;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 100%;
+}
+
+#variant, #variant-small {
+    margin-left: $margin;
+}
+
+#group, #group-small {
+    margin-right: $margin;
+}
+
+#variant-small {
+    display: none;
+}
+
+#name-small {
+    display: none;
+}
+
+#group-small {
+    display: none;
+}
+
+:host {
+    height: 100%;
+    width: 100%;
+}
+
+
+
+@media (min-width: 1177px) {
+    span {
+        font-size: 24px;
+    }
+}
+
+
+@media (min-width: 807px) and (max-width: 1176px) {
+    span {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 806px) {
+    span {
+        font-size: 14px;
+    }
+
+    #variant-small {
+        display: block;
+    }
+
+    #name-small {
+        display: block;
+    }
+
+    #group-small {
+        display: block;
+    }
+
+    #variant {
+        display: none;
+    }
+
+    #name {
+        display: none;
+    }
+
+    #group {
+        display: none;
+    }
+}

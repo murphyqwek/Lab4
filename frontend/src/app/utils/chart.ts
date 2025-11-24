@@ -35,9 +35,6 @@ export class Chart {
         this.measureWidth = (this.graphWidth - this.scaleOffset) / 5;
         this.measureHeight = (this.graphHeight - this.scaleOffset) / 5;
 
-        this.context.canvas.width = width;
-        this.context.canvas.height = height;
-
         this.context.strokeStyle = '#ccc';
         this.context.lineWidth = this.lineWidth;
         this.context.fillStyle = '#000';

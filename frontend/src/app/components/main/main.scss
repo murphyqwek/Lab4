@@ -99,9 +99,10 @@ $table-corner-radius: 10px;
   text-align: center; 
 }
 
+
 #chart {
-  width: 75%;
-  height: 300px;
+  border-radius: 3px;
+  border: 1px solid black;
 }
 
 table {

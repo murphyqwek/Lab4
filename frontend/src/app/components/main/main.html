@@ -4,33 +4,48 @@
             <div class="input-head">
                 <p>Выберите: Y, X, R</p>
             </div>
-            <div id="y-input" class="field-div bottom-filed-border ">
-                <p>Y:</p>
-                <input id="y-input-field" class="input-field" type="text" placeholder="Введите Y">
+            <div id="y-input" class="bottom-filed-border field-container">
+                <div class="field-div">
+                    <p>Y:</p>
+                    <input name="y-input-field" id="y-input-field" class="input-field" type="text" placeholder="Введите Y (от -5 до 5)">
+                </div>
+                @if (isYXError()) {
+                    <p class="error-text">{{yErrorText()}}</p>
+                }
             </div>
-            <div id="x-input" class="field-div bottom-filed-border ">
-                <p>X:</p>
-                <select id="y-select" class="input-select">
-                    <option>-3</option>
-                    <option>-2</option>
-                    <option>-1</option>
-                    <option>0</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+            <div id="x-input" class="field-container bottom-filed-border ">
+                <div class="field-div">
+                    <p>X:</p>
+                    <select name="x-select" id="x-select" class="input-select">
+                        <option>-3</option>
+                        <option>-2</option>
+                        <option>-1</option>
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                @if (isXError()) {
+                    <p class="error-text">{{xErrorText()}}</p>
+                }
             </div>
-            <div id="r-input" class="field-div">
-                <p>R:</p>
-                <select id="r-select" class="input-select">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+            <div id="r-input" class="field-container">
+                <div class="field-div">
+                    <p>R:</p>
+                    <select id="r-select" class="input-select">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                @if (isRError()) {
+                    <p class="error-text">{{rErrorText()}}</p>
+                }
             </div>
         </div>
 

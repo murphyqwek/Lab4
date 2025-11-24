@@ -14,6 +14,14 @@ export class Main implements OnInit {
   private chartDrawUtil!: Chart;
 
   data = signal([])
+
+  isYXError = signal(false);
+  isXError = signal(false);
+  isRError = signal(false);
+
+  yErrorText = signal("");
+  xErrorText = signal("");
+  rErrorText = signal("");
   
   ngOnInit() {
     this.chart = this.canvas.nativeElement;

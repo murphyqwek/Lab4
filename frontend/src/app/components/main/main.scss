@@ -70,6 +70,14 @@ $table-corner-radius: 10px;
   }
 }
 
+.field-container {
+  p.error-text {
+    text-align: left;
+    margin-left: 5px;
+    font-size: smaller;
+  }
+}
+
 #y-input-field {
   width: 90%;
   border: 1px solid rgb(178, 178, 178);
@@ -108,8 +116,8 @@ $table-corner-radius: 10px;
 table {
   border-collapse: collapse;
   border-radius: $table-corner-radius;
-  border-style: hidden; /* hide standard table (collapsed) border */
-  box-shadow: 0 0 0 1px #666; /* this draws the table border  */ 
+  border-style: hidden;
+  box-shadow: 0 0 0 1px #666;
   text-align: center;
 }
 
@@ -128,4 +136,13 @@ th:first-child {
 
 th:last-child {
   border-top-right-radius: $table-corner-radius - 1px;
+}
+
+
+.error-field {
+  border: 1px solid rgb(215, 15, 15);
+}
+
+.error-text {
+  color: rgb(215, 15, 15);
 }

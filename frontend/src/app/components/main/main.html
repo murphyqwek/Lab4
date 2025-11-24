@@ -35,7 +35,7 @@
             <div id="r-input" class="field-container">
                 <div class="field-div">
                     <p>R:</p>
-                    <select [class.error-field]="isRError()" (click)="rFieldClick()" id="r-select" class="input-select">
+                    <select [class.error-field]="isRError()" [(ngModel)]="rawRValue" (change)="rSelected()" id="r-select" class="input-select">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>

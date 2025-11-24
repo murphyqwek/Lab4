@@ -1,9 +1,11 @@
 import { Component, ViewChild, ElementRef, OnInit, Signal, signal } from '@angular/core';
 import { Chart } from '../../utils/chart';
+import { FormsModule } from '@angular/forms';
+import { checkX, checkY, checkR} from '../../utils/chartValidation';
 
 @Component({
   selector: 'app-main',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './main.html',
   styleUrl: './main.scss',
 })
@@ -12,6 +14,8 @@ export class Main implements OnInit {
   private chart!: HTMLCanvasElement;
   private context!: CanvasRenderingContext2D;
   private chartDrawUtil!: Chart;
+
+  rawRValue : string = "4";
 
   data = signal([])
 
@@ -41,7 +45,16 @@ export class Main implements OnInit {
     this.isXError.set(false);
   }
 
-  rFieldClick() {
+  rSelected() {
     this.isRError.set(false);
+    let rValidated = checkR(this.rawRValue);
+    
+    if(!rValidated.isValid) {
+      this.rErrorText.set(rValidated.message);
+      this.isRError.set(true);
+      return;
+    }
+
+    this.chartDrawUtil.redrawChart(rValidated.parsedValue);
   }
 }

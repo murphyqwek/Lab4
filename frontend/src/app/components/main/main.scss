@@ -1,0 +1,130 @@
+$input-border: 1px solid black;
+$table-corner-radius: 10px;
+
+:host {
+  height: 100%;
+  width: 100%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.input {
+  display: block;
+  text-align: center;
+
+  button {
+    width: 150px;
+    height: 40px;
+    margin-top: 5px;
+    border: 0px;
+    animation: unhover 0.5s forwards;
+  }
+
+
+  button:hover {
+    animation: hover 0.5s forwards;
+    cursor: pointer;
+  }
+}
+
+.main-div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#chart {
+  border: 1px solid black;
+}
+
+.input-head {
+  border-bottom: $input-border;
+  text-align: center;
+  padding: 3px;
+  font-size: medium;
+  border-radius: 4px 4px 0px 0px;
+  background: linear-gradient(90deg,rgba(63, 94, 251, 1) 0%, rgba(200, 72, 226, 1) 60%);
+  color: white;
+}
+
+.input-div {
+  border: $input-border;
+  border-radius: 5px;
+  width: 300px;
+  height: fit-content;
+}
+
+.bottom-filed-border {
+  border-bottom: $input-border;
+}
+
+.field-div {
+  padding: 3px;
+  display: flex;
+  
+  p {
+    margin-right: 5px;
+  }
+}
+
+#y-input-field {
+  width: 90%;
+  border: 1px solid rgb(178, 178, 178);
+  border-radius: 10px;
+  text-align: right;
+}
+
+.input-select {
+  width: 90%;
+  text-align: right;
+  background: white;
+  border: 1px solid rgb(178, 178, 178);
+  border-radius: 10px;
+}
+
+@keyframes hover {
+  from {background-color: black; color: white;}
+  to {background-color: white; color:black}
+}
+
+@keyframes unhover {
+  from {background-color: white; color:black}
+  to {background-color: black; color: white;}
+}
+
+.chart-div {
+  text-align: center; 
+}
+
+#chart {
+  width: 75%;
+  height: 300px;
+}
+
+table {
+  border-collapse: collapse;
+  border-radius: $table-corner-radius;
+  border-style: hidden; /* hide standard table (collapsed) border */
+  box-shadow: 0 0 0 1px #666; /* this draws the table border  */ 
+  text-align: center;
+}
+
+td, th, tr {
+  border: 1px solid #b2b2b2;
+}
+
+th {
+  background: rgba(63, 94, 251, 1);
+  color: white;
+}
+
+th:first-child {
+  border-top-left-radius: $table-corner-radius - 1px;
+}
+
+th:last-child {
+  border-top-right-radius: $table-corner-radius - 1px;
+}

@@ -1,0 +1,66 @@
+<div class="main-div">
+    <div class="input">
+        <div class="input-div">
+            <div class="input-head">
+                <p>Выберите: Y, X, R</p>
+            </div>
+            <div id="y-input" class="field-div bottom-filed-border ">
+                <p>Y:</p>
+                <input id="y-input-field" class="input-field" type="text" placeholder="Введите Y">
+            </div>
+            <div id="x-input" class="field-div bottom-filed-border ">
+                <p>X:</p>
+                <select id="y-select" class="input-select">
+                    <option>-3</option>
+                    <option>-2</option>
+                    <option>-1</option>
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            <div id="r-input" class="field-div">
+                <p>R:</p>
+                <select id="r-select" class="input-select">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="sumbit">Отправить</button>
+    </div>
+
+    <div class="chart-div">
+        <canvas #chart id="chart"></canvas>
+    </div>
+
+    <div class="table-div">
+        <table>
+            <thead>
+                <tr>
+                        <th>Y</th>
+                        <th>X</th>
+                        <th>R</th>
+                        <th>Попадание</th>
+                        <th>Дата</th>
+                        <th>Время, мс</th>
+                </tr>
+           </thead>
+           <tbody>
+                @if(data.length == 0) {
+                    <tr><td colspan="6">Нет данных</td></tr>
+                }
+                @else {
+
+                }
+           </tbody>
+        </table>
+    </div>
+</div>

@@ -32,7 +32,6 @@ export class Credentials {
 
   loginInputClicked() {
     this.isLoginError.set(false);
-    console.log("test");
   }
 
   passwordInputClicked() {

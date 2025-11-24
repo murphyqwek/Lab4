@@ -78,7 +78,7 @@ $table-corner-radius: 10px;
   }
 }
 
-#y-input-field {
+input {
   width: 90%;
   border: 1px solid rgb(178, 178, 178);
   border-radius: 10px;
@@ -140,7 +140,7 @@ th:last-child {
 
 
 .error-field {
-  border: 1px solid rgb(215, 15, 15);
+  border: 2px solid rgb(215, 15, 15);
 }
 
 .error-text {

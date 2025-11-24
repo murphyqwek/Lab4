@@ -15,7 +15,7 @@ export class Main implements OnInit {
 
   data = signal([])
 
-  isYXError = signal(false);
+  isYError = signal(false);
   isXError = signal(false);
   isRError = signal(false);
 
@@ -32,4 +32,16 @@ export class Main implements OnInit {
     this.chartDrawUtil.redrawChart(4);
   }
 
+
+  yFieldClick() {
+    this.isYError.set(false);
+  }
+
+  xFieldClick() {
+    this.isXError.set(false);
+  }
+
+  rFieldClick() {
+    this.isRError.set(false);
+  }
 }

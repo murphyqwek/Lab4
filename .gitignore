@@ -1,3 +1,15 @@
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IntelliJ IDEA ###
+backend/.idea/
+*.iws
+*.iml
+*.ipr
+
+
 # Angular specific
 frontend/dist/
 frontend/out-tsc/

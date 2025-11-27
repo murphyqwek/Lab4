@@ -34,7 +34,7 @@ public class AuthenticationController {
                         .build();
             }
 
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            return Response.status(Response.Status.CONFLICT).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -55,7 +55,7 @@ public class AuthenticationController {
                         .build();
             }
 
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

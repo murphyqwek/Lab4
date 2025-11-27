@@ -1,6 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { repeat } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CredentialsPayload } from '../../services/CredentialPaylload';
+import { AuthService } from '../../services/AuthService';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-credentials',
@@ -8,7 +11,7 @@ import { repeat } from 'rxjs';
   templateUrl: './credentials.html',
   styleUrl: './credentials.scss',
 })
-export class Credentials {
+export class Credentials implements OnInit {
   credForm: FormGroup;
 
   isLogin = signal(false)
@@ -19,15 +22,41 @@ export class Credentials {
   passwordError = signal('')
   loginError = signal('')
 
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.credForm = this.fb.group({
+      username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(15)]],
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(15)]],
+      repeatPassword: ['', []],
+    });
+  }
+
+  ngOnInit(): void {
+    this.route.url.subscribe(segments => {
+        const currentPath = segments[0]?.path;
+
+        if (currentPath === 'login' || currentPath === '') {
+            this.isLogin.set(true);
+        } else {
+          this.isLogin.set(false);
+        }
+        
+
+        console.log(currentPath);
+    });
+  }
+
   linkClicked() {
-    this.credForm.get("username")?.reset();
-    this.credForm.get("password")?.reset();
-    this.credForm.get("repeatPassword")?.reset();
-    this.isLogin.update(value => !value);
-    this.isLoginError.set(false);
-    this.isPasswordError.set(false);
-    this.loginError.set('');
-    this.passwordError.set('');
+    if(this.isLogin()) {
+      this.router.navigate(['login']);
+    }
+    else {
+      this.router.navigate(['register']);
+    }
   }
 
   loginInputClicked() {
@@ -44,9 +73,90 @@ export class Credentials {
     let isLoginValid = this.validateLogin();
     let isPasswordValid = this.validatePassword();
     
-    let text = isLoginValid && isPasswordValid ? "Удалось!" : "Не удалось";
+    if(!(isLoginValid && isPasswordValid)) {
+      return;
+    }
 
-    console.log(text);
+    const username = this.credForm.get('username');
+    const password = this.credForm.get('password');
+
+    if(username === null || password === null) {
+      return;
+    }
+
+
+
+    const payload: CredentialsPayload = {
+      username: username.value,
+      password: password.value,
+    };
+
+    if(this.isLogin()) {
+      this.login(payload);
+    } 
+    else {
+      this.registration(payload);
+    }
+  }
+
+  private registration(cred: CredentialsPayload) {
+     const registration$ = this.authService.register(cred);
+
+    registration$.subscribe({
+        next: (token: string) => {
+            if (token) {
+                this.authService.setToken(token);
+                this.router.navigate(['/shoot']);
+            } else {
+                this.isLoginError.set(true);
+                this.loginError.set("Имя пользователя уже занято")
+            }
+        },
+        
+        error: (err: HttpErrorResponse) => {
+            if(err.status === 409) {
+              const errorMessage = 'Имя пользователя уже занято. Попробуйте другое имя';
+              
+              this.isLoginError.set(true);
+              this.loginError.set(errorMessage)
+            } else {
+              console.log(err.message);
+              //TODO:  сделать общие ошибки
+            }
+        },
+    });
+  }
+
+  private login(cred: CredentialsPayload) {
+    const login$ = this.authService.login(cred);
+
+    login$.subscribe({
+      next: (token: string) => {
+        if(token) {
+          this.authService.setToken(token);
+          this.router.navigate(['/shoot']);
+        }
+        else {
+          this.isLoginError.set(true);
+          this.isPasswordError.set(true);
+
+          this.passwordError.set("Неверный пароль или логин");
+          //TODO:  сделать общие ошибки
+        }
+      },
+
+      error: (err: HttpErrorResponse) => {
+        if(err.status === 400) {
+          this.isLoginError.set(true);
+          this.isPasswordError.set(true);
+          this.passwordError.set("Неверный пароль или логин");
+        }
+        else {
+          console.log(err.message);
+          //TODO:  сделать общие ошибки
+        }
+      }
+    })
   }
 
   validateLogin() {
@@ -103,13 +213,5 @@ export class Credentials {
     }
 
     return false;
-  }
-
-  constructor(fb: FormBuilder) { 
-    this.credForm = fb.group({
-      username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(15)]],
-      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(15)]],
-      repeatPassword: ['', [Validators.required]],
-    });
   }
 }

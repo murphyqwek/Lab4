@@ -10,7 +10,6 @@ public class UserCredentials {
     @Id
     @Column(unique = true, nullable = false, length = 20)
     private String username;
-    @Column(nullable = false, length = 20)
     private String password;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

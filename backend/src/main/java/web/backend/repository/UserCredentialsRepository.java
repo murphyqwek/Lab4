@@ -22,4 +22,10 @@ public class UserCredentialsRepository {
     public UserCredentials getUserByUsername(String username) {
         return em.find(UserCredentials.class, username);
     }
+
+    @Transactional
+    public boolean isUsernameTaken(String username) {
+        UserCredentials user = getUserByUsername(username);
+        return user != null;
+    }
 }

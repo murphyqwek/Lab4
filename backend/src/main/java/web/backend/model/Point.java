@@ -1,9 +1,7 @@
 package web.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.h2.engine.User;
 
 @Entity
 public class Point {
@@ -17,15 +15,20 @@ public class Point {
     private String startTime;
     private long executionTime;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private UserCredentials owner;
+
     public Point() {}
 
-    public Point(int x, float y, int r, boolean hit, String startTime, long executionTime) {
+    public Point(int x, float y, int r, boolean hit, String startTime, long executionTime,  UserCredentials owner) {
         this.x = x;
         this.y = y;
         this.r = r;
         this.hit = hit;
         this.startTime = startTime;
         this.executionTime = executionTime;
+        this.owner = owner;
     }
 
     public long getId() {
@@ -75,5 +78,13 @@ public class Point {
     }
     public void setExecutionTime(long executionTime) {
         this.executionTime = executionTime;
+    }
+
+    public UserCredentials getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UserCredentials owner) {
+        this.owner = owner;
     }
 }

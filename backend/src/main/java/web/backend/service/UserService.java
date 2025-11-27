@@ -32,6 +32,7 @@ public class UserService {
 
         repository.addUserCredentials(userCredentials);
 
+        System.out.println("New user registered: " + newUser.getUsername());
         return new Result<UserCredentials>(true, "",  userCredentials);
     }
 
@@ -48,6 +49,7 @@ public class UserService {
             return new Result<UserCredentials>(false, "Пароль или имя пользователя неверно", null);
         }
 
+        System.out.println("User registered: " + user.getUsername());
         return new Result<UserCredentials>(true, "", userCredentials);
     }
 

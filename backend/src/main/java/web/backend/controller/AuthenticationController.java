@@ -41,7 +41,7 @@ public class AuthenticationController {
     }
 
     @POST
-    @Path("/register")
+    @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(UserCredentialsDTO userCredentials) {
         try {

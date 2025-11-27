@@ -31,4 +31,8 @@ public class PointDTO extends PointRequestDTO {
     public long getExecutionTime() {
         return executionTime;
     }
+
+    public void setExecutionTime(long executionTime) {
+        this.executionTime = executionTime;
+    }
 }

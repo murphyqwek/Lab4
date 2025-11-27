@@ -61,10 +61,18 @@ export class Credentials implements OnInit {
 
   loginInputClicked() {
     this.isLoginError.set(false);
+
+    if(this.isLogin()) {
+      this.isPasswordError.set(false);
+    }
   }
 
   passwordInputClicked() {
     this.isPasswordError.set(false);
+
+    if(this.isLogin()) {
+      this.isLoginError.set(false);
+    }
   }
 
   onFormSubmit() {

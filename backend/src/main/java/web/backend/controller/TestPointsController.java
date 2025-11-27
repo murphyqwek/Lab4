@@ -7,10 +7,8 @@ import jakarta.ws.rs.core.Response;
 import web.backend.model.Point;
 import web.backend.service.PointService;
 
-import java.awt.*;
-
 @Path("/test")
-public class TestController {
+public class TestPointsController {
     @Inject
     private PointService pointService;
 

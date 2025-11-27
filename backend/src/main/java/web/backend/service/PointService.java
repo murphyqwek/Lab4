@@ -2,6 +2,8 @@ package web.backend.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.SecurityContext;
 import web.backend.dto.PointRequestDTO;
 import web.backend.model.Point;
 import web.backend.model.UserCredentials;
@@ -23,6 +25,9 @@ public class PointService {
 
     @Inject
     private PointHitChecker pointHitChecker;
+
+    @Inject
+    private UserService userService;
 
     public boolean isPointValid(PointRequestDTO point) {
         return pointValidation.checkPoint(point);
@@ -50,7 +55,11 @@ public class PointService {
         return pointRepository.getAllPointsByOwnerUserName(owner);
     }
 
+    public void deleteUserPoints(String username) {
+        pointRepository.deleteUserPoints(username);
+    }
+
     public void deleteAllPoints() {
-        pointRepository.deletePoints();
+        pointRepository.deleteAllPoints();
     }
 }

@@ -50,4 +50,8 @@ public class UserService {
 
         return new Result<UserCredentials>(true, "", userCredentials);
     }
+
+    public UserCredentials getUserByUsername(String username) {
+        return repository.getUserByUsername(username);
+    }
 }

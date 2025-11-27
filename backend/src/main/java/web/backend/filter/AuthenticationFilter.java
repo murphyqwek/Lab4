@@ -5,11 +5,14 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.ext.Provider;
 import web.backend.util.Secured;
 import web.backend.util.TokenUtil;
 
+import java.beans.Customizer;
 import java.io.IOException;
+import java.security.Principal;
 
 @Provider
 @Secured
@@ -37,7 +40,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             }
 
             String username = tokenUtil.getUsernameFromToken(token);
-            requestContext.setProperty("username", username);
+            requestContext.setSecurityContext(new CustomSecurityContext(username, requestContext.getSecurityContext().isSecure()));
         } catch (Exception e) {
             abortWithUnauthorized(requestContext, "Токен истёк");
         }

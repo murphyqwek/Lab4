@@ -1,5 +1,7 @@
 package web.backend.dto;
 
+import web.backend.model.Point;
+
 public class PointDTO extends PointRequestDTO {
     private boolean isHit;
     private String startTime;
@@ -10,6 +12,13 @@ public class PointDTO extends PointRequestDTO {
         this.isHit = isHit;
         this.startTime = startTime;
         this.executionTime = executionTime;
+    }
+
+    public PointDTO(Point point) {
+        super(point.getX(), point.getY(), point.getR());
+        this.isHit = point.isHit();
+        this.startTime = point.getStartTime();
+        this.executionTime = point.getExecutionTime();
     }
 
     public boolean getIsHit() {

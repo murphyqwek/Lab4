@@ -8,9 +8,9 @@ public class Point {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int x;
-    private float y;
-    private int r;
+    private double x;
+    private double y;
+    private double r;
     private boolean hit;
     private String startTime;
     private long executionTime;
@@ -21,7 +21,7 @@ public class Point {
 
     public Point() {}
 
-    public Point(int x, float y, int r, boolean hit, String startTime, long executionTime,  UserCredentials owner) {
+    public Point(double x, double y, double r, boolean hit, String startTime, long executionTime,  UserCredentials owner) {
         this.x = x;
         this.y = y;
         this.r = r;
@@ -38,24 +38,24 @@ public class Point {
         this.id = id;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public int getR() {
+    public double getR() {
         return r;
     }
-    public void setR(int r) {
+    public void setR(double r) {
         this.r = r;
     }
 

@@ -13,7 +13,7 @@ public class UserCredentials {
     @Column(nullable = false, length = 20)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Point> points = new ArrayList<>();
 
     public String getUsername() {

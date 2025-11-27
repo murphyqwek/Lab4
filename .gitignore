@@ -1,8 +1,10 @@
+# Backend
 backend/target/
 backend/src/main/webapp/
 backend/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+microprofile-config.properties
 
 ### IntelliJ IDEA ###
 backend/.idea/

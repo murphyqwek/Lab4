@@ -1,31 +1,34 @@
 package web.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.h2.engine.User;
 
 @Entity
 public class Point {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int x;
-    private float y;
-    private int r;
+    private double x;
+    private double y;
+    private double r;
     private boolean hit;
     private String startTime;
     private long executionTime;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private UserCredentials owner;
+
     public Point() {}
 
-    public Point(int x, float y, int r, boolean hit, String startTime, long executionTime) {
+    public Point(double x, double y, double r, boolean hit, String startTime, long executionTime,  UserCredentials owner) {
         this.x = x;
         this.y = y;
         this.r = r;
         this.hit = hit;
         this.startTime = startTime;
         this.executionTime = executionTime;
+        this.owner = owner;
     }
 
     public long getId() {
@@ -35,24 +38,24 @@ public class Point {
         this.id = id;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public int getR() {
+    public double getR() {
         return r;
     }
-    public void setR(int r) {
+    public void setR(double r) {
         this.r = r;
     }
 
@@ -75,5 +78,13 @@ public class Point {
     }
     public void setExecutionTime(long executionTime) {
         this.executionTime = executionTime;
+    }
+
+    public UserCredentials getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UserCredentials owner) {
+        this.owner = owner;
     }
 }

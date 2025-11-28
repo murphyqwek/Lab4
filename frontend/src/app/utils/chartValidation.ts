@@ -1,3 +1,5 @@
+import { ValidationData } from "../interfaces/validate.data";
+
 function checkStringFormat(rawValue : string) {
     rawValue = rawValue.replace(',', '.');
     const regex = /^-?\d*\.?\d*$/;
@@ -12,13 +14,13 @@ function checkForNull(value : string) {
 }
 
 
-function validateInput(variableName : string, value : string, min : number, max : number, decimalPlaces = 3) {
+function validateInput(variableName : string, value : string, min : number, max : number, decimalPlaces = 3): ValidationData {
     if (!checkForNull(value)) {
         return {
             isValid: false,
             message: `Значение ${variableName} не может быть пустым`,
             parsedValue: 0
-        };
+        } as ValidationData;
     }
 
     if (!checkStringFormat(value)) {
@@ -26,7 +28,7 @@ function validateInput(variableName : string, value : string, min : number, max 
             isValid: false,
             message: `Значение ${variableName} должно быть числом`,
             parsedValue: 0
-        };
+        } as ValidationData;
     }
 
     const numValue = parseFloat(value);
@@ -35,7 +37,7 @@ function validateInput(variableName : string, value : string, min : number, max 
             isValid: false,
             message: `Неверный формат числа для значения ${variableName}`,
             parsedValue: 0
-        };
+        } as ValidationData;
     }
 
     const parts = value.split('.');
@@ -44,7 +46,7 @@ function validateInput(variableName : string, value : string, min : number, max 
             isValid: false,
             message: `Слишком много знаков после запятой для ${variableName}. Максимум: ${decimalPlaces}`,
             parsedValue: 0
-        };
+        } as ValidationData;
     }
 
     if (numValue < min || numValue > max) {
@@ -52,14 +54,14 @@ function validateInput(variableName : string, value : string, min : number, max 
             isValid: false,
             message: `Значение ${variableName} должно быть от ${min} до ${max}. Текущее значение: ${numValue}`,
             parsedValue: 0
-        };
+        }  as ValidationData; 
     }
 
     return {
         isValid: true,
         message: 'OK',
         parsedValue: numValue
-    };
+    } as ValidationData;
 }
 
 

@@ -6,9 +6,9 @@ import web.backend.dto.PointRequestDTO;
 @ApplicationScoped
 public class PointHitChecker {
     public boolean checkHit(PointRequestDTO point) {
-        return  checkHitRectangle(point) &&
-                checkHitTriangle(point) &&
-                checkHitRectangle(point);
+        return  checkHitRectangle(point) ||
+                checkHitTriangle(point) ||
+                checkHitQuarterCircle(point);
     }
 
     private boolean checkHitRectangle(PointRequestDTO point) {

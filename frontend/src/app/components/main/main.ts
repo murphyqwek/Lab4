@@ -100,7 +100,7 @@ export class Main implements OnInit, OnDestroy {
   }
 
   private validateField(fieldValidationData: ValidationData, fieldErrorSignal: WritableSignal<boolean>, fieldErrorText: WritableSignal<string>) {
-    fieldErrorSignal.set(fieldValidationData.isValid);
+    fieldErrorSignal.set(!fieldValidationData.isValid);
     
     if(!fieldValidationData.isValid) {
       fieldErrorText.set(fieldValidationData.message);

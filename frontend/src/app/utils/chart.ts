@@ -1,5 +1,9 @@
+import { PointData } from "../interfaces/point.data";
+import { checkR, checkX, checkY } from "./chartValidation";
+
 export class Chart {
     private context: CanvasRenderingContext2D;
+    private canvas: HTMLCanvasElement;
 
     private lineWidth = 2;
     private scaleOffset = 15;
@@ -19,8 +23,9 @@ export class Chart {
     private measureHeight = (this.graphHeight - this.scaleOffset) / 5; //Длина единицы графика для оси Y
 
 
-    constructor(context: CanvasRenderingContext2D) {
-        this.context = context;
+    constructor(canvas: HTMLCanvasElement) {
+        this.canvas = canvas;
+        this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     }
 
     setWidthHeight(width: number, height: number) {
@@ -145,5 +150,54 @@ export class Chart {
             this.context.lineTo(x, y - 5);
         }
         this.context.stroke();
+    }
+
+    drawDots(points: PointData[]) {
+        console.log("Update points");
+        console.log(points);
+        points.forEach(point => {
+            let x = point.x;
+            let y = point.y;
+
+            let graphX = x * this.measureWidth + this.centerX;
+            let graphY = -y * this.measureHeight + this.centerY;
+
+            console.log(graphX, graphY);
+
+            this.context.beginPath();
+            this.context.arc(graphX, graphY, 4, 0, Math.PI * 2);
+            this.context.fillStyle = point.isHit ? 'green' : 'red';
+            this.context.fill();
+            this.context.stroke();
+        });
+    }
+
+    onGraphClick(event: MouseEvent, r: number, sendPoint: (x: number, y: number, r: number) => void) {
+        const canvasRect = this.canvas.getBoundingClientRect();
+        const xClick = event.clientX - canvasRect.left;
+        const yClick = event.clientY - canvasRect.top;
+
+
+        let xPlot = (xClick - this.centerX ) / this.measureWidth;
+        let yPlot = -(yClick - this.centerY) / this.measureHeight;
+
+        console.log(xPlot, yPlot);
+
+        let x = xPlot.toFixed(3);
+        let y = yPlot.toFixed(3);
+
+        let rValidated = checkR(r.toString());
+        let xValidated = checkX(x);
+        let yValidated = checkY(y);
+
+        if(rValidated.isValid && xValidated.isValid && yValidated.isValid) {
+            sendPoint(xValidated.parsedValue, 
+                        yValidated.parsedValue,
+                        rValidated.parsedValue
+            );
+            return;
+        }
+
+
     }
 }

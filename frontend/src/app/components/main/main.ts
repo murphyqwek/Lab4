@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, Signal, signal, OnDestroy, WritableSignal } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, Signal, signal, OnDestroy, WritableSignal, effect } from '@angular/core';
 import { Chart } from '../../utils/chart';
 import { FormsModule } from '@angular/forms';
 import { checkX, checkY, checkR} from '../../utils/chartValidation';
@@ -15,7 +15,6 @@ import { ValidationData } from '../../interfaces/validate.data';
 export class Main implements OnInit, OnDestroy {
   @ViewChild('chart', {static: true}) canvas!: ElementRef<HTMLCanvasElement>; 
   private chart!: HTMLCanvasElement;
-  private context!: CanvasRenderingContext2D;
   private chartDrawUtil!: Chart;
   private resizeObserver!: ResizeObserver;
 
@@ -25,7 +24,7 @@ export class Main implements OnInit, OnDestroy {
   rawXValue : string = "-3";
   rawYValue : string = "";
 
-  data: WritableSignal<PointData[]> = signal([])
+  points: WritableSignal<PointData[]> = signal([])
 
   isYError = signal(false);
   isXError = signal(false);
@@ -35,11 +34,14 @@ export class Main implements OnInit, OnDestroy {
   xErrorText = signal("");
   rErrorText = signal("");
 
+  pointsUpdated = effect(() =>{
+    this.chartDrawUtil.drawDots(this.points());
+  });
+
   constructor(private pointService: PointService) {}
 
   ngOnInit() {
     this.chart = this.canvas.nativeElement;
-    this.context = this.chart.getContext('2d') as CanvasRenderingContext2D;
 
     this.setupResizeObserver();
 
@@ -47,14 +49,14 @@ export class Main implements OnInit, OnDestroy {
 
     console.log(canvasRect);
 
-    this.chartDrawUtil = new Chart(this.context);
+    this.chartDrawUtil = new Chart(this.chart);
     this.chartDrawUtil.setWidthHeight(canvasRect.width, canvasRect.height);
     this.chartDrawUtil.redrawChart(this.rValue);
     
     this.pointService.getAllPoints().subscribe({
       next: (points: PointData[]) => {
         console.log(points);
-        this.data.set(points);
+        this.points.set(points);
       }
     });
   }
@@ -66,7 +68,7 @@ export class Main implements OnInit, OnDestroy {
         this.chart.height = entry.contentRect.height;
         this.chartDrawUtil.setWidthHeight(this.chart.width, this.chart.height);
         this.chartDrawUtil.redrawChart(this.rValue);
-        console.log('Canvas resized to:', this.chart.width, this.chart.height);
+        this.chartDrawUtil.drawDots(this.points());
       }
     });
 
@@ -97,6 +99,7 @@ export class Main implements OnInit, OnDestroy {
 
     this.rValue = rValidated.parsedValue;
     this.chartDrawUtil.redrawChart(this.rValue);
+    this.chartDrawUtil.drawDots(this.points());
   }
 
   private validateField(fieldValidationData: ValidationData, fieldErrorSignal: WritableSignal<boolean>, fieldErrorText: WritableSignal<string>) {
@@ -130,8 +133,14 @@ export class Main implements OnInit, OnDestroy {
     }).subscribe({
       next: (point: PointData) => {
         console.log(point);
-        this.data.update(points => points.concat(point))
+        this.points.update(points => points.concat(point))
       }
     });
   }
+
+  onGraphClick(event: MouseEvent): void {
+    this.chartDrawUtil.onGraphClick(event, this.rValue, 
+      (x: number, y: number, r: number) => this.sendPoint(x, y, r));
+  }
+
 }

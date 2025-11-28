@@ -53,27 +53,39 @@
     </div>
 
     <div class="chart-div">
-        <canvas #chart id="chart"></canvas>
+        <canvas #chart id="chart" (click)="onGraphClick($event)"></canvas>
     </div>
 
     <div class="table-div">
         <table id="result-table">
             <thead>
                 <tr>
-                        <th>Y</th>
-                        <th>X</th>
-                        <th>R</th>
-                        <th>Попадание</th>
-                        <th>Дата</th>
-                        <th>Время, мс</th>
+                    <th>Y</th>
+                    <th>X</th>
+                    <th>R</th>
+                    <th>Попадание</th>
+                    <th>Время начала</th>
+                    <th>Время, мс</th>
                 </tr>
            </thead>
            <tbody>
-                @if(data.length == 0) {
-                    <tr><td colspan="6">Нет данных</td></tr>
+                @for(point of points(); track $index) {
+                    <tr>
+                        <th>{{point.y}}</th> 
+                        <th>{{point.x}}</th> 
+                        <th>{{point.r}}</th> 
+                         @if(point.isHit) {
+                            <th>Попадание</th>
+                        }
+                        @else {
+                            <th>Мимо</th>
+                        }
+                        <th>{{point.startTime}}</th>
+                        <th>{{point.executionTime}}</th>
+                    </tr>
                 }
-                @else {
-
+                @empty {
+                    <tr><td colspan="6">Нет данных</td></tr>
                 }
            </tbody>
         </table>

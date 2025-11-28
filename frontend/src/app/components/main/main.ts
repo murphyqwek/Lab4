@@ -40,6 +40,9 @@ export class Main implements OnInit, OnDestroy {
   rErrorText = signal("");
   username = signal("")
 
+  currentPage = 0;
+  pageSize = 10;
+
   pointsUpdated = effect(() =>{
     this.chartDrawUtil.drawDots(this.points());
   });
@@ -53,8 +56,6 @@ export class Main implements OnInit, OnDestroy {
     this.setupResizeObserver();
 
     let canvasRect = this.chart.getBoundingClientRect();
-
-    console.log(canvasRect);
 
     this.chartDrawUtil = new Chart(this.chart);
     this.chartDrawUtil.setWidthHeight(canvasRect.width, canvasRect.height);
@@ -149,6 +150,27 @@ export class Main implements OnInit, OnDestroy {
     this.graphError.set("");
     this.chartDrawUtil.onGraphClick(event, this.rValue, 
       (x: number, y: number, r: number) => this.sendPoint(x, y, r), (message: string) => this.graphError.set(message));
+  }
+
+  get paginatedPoints() {
+    const start = this.currentPage * this.pageSize;
+    return this.points().slice(start, start + this.pageSize);
+  }
+
+  get totalPages() {
+    return Math.ceil(this.points().length / this.pageSize);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+    }
   }
 
 }

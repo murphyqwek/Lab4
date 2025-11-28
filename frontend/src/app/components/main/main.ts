@@ -146,6 +146,7 @@ export class Main implements OnInit, OnDestroy {
   }
 
   onGraphClick(event: MouseEvent): void {
+    this.graphError.set("");
     this.chartDrawUtil.onGraphClick(event, this.rValue, 
       (x: number, y: number, r: number) => this.sendPoint(x, y, r), (message: string) => this.graphError.set(message));
   }

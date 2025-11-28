@@ -23,6 +23,8 @@ export class Credentials implements OnInit {
   passwordError = signal('')
   loginError = signal('')
 
+  serverError = signal('');
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -129,8 +131,7 @@ export class Credentials implements OnInit {
               this.isLoginError.set(true);
               this.loginError.set(errorMessage)
             } else {
-              console.log(err.message);
-              //TODO:  сделать общие ошибки
+              this.serverError.set("Сервер не доступен");
             }
         },
     });
@@ -150,7 +151,6 @@ export class Credentials implements OnInit {
           this.isPasswordError.set(true);
 
           this.passwordError.set("Неверный пароль или логин");
-          //TODO:  сделать общие ошибки
         }
       },
 
@@ -161,8 +161,7 @@ export class Credentials implements OnInit {
           this.passwordError.set("Неверный пароль или логин");
         }
         else {
-          console.log(err.message);
-          //TODO:  сделать общие ошибки
+          this.serverError.set("Сервер не доступен");
         }
       }
     })

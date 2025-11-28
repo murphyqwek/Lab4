@@ -5,9 +5,20 @@
                              https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
-    <error-page>
-        <error-code>404</error-code>
-        <location>/index.html</location>
-    </error-page>
+    <filter>
+        <filter-name>SpaRouterFilter</filter-name>
+        <filter-class>web.backend.filter.SpaRouterFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>SpaRouterFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 
 </web-app>

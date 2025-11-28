@@ -1,7 +1,10 @@
-import { Component, ViewChild, ElementRef, OnInit, Signal, signal, OnDestroy } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, Signal, signal, OnDestroy, WritableSignal } from '@angular/core';
 import { Chart } from '../../utils/chart';
 import { FormsModule } from '@angular/forms';
 import { checkX, checkY, checkR} from '../../utils/chartValidation';
+import { PointService } from '../../services/point.service';
+import { PointData } from '../../interfaces/point.data';
+import { ValidationData } from '../../interfaces/validate.data';
 
 @Component({
   selector: 'app-main',
@@ -19,7 +22,10 @@ export class Main implements OnInit, OnDestroy {
   rawRValue : string = "4";
   rValue = 4;
 
-  data = signal([])
+  rawXValue : string = "-3";
+  rawYValue : string = "";
+
+  data: WritableSignal<PointData[]> = signal([])
 
   isYError = signal(false);
   isXError = signal(false);
@@ -28,7 +34,9 @@ export class Main implements OnInit, OnDestroy {
   yErrorText = signal("");
   xErrorText = signal("");
   rErrorText = signal("");
-  
+
+  constructor(private pointService: PointService) {}
+
   ngOnInit() {
     this.chart = this.canvas.nativeElement;
     this.context = this.chart.getContext('2d') as CanvasRenderingContext2D;
@@ -42,6 +50,13 @@ export class Main implements OnInit, OnDestroy {
     this.chartDrawUtil = new Chart(this.context);
     this.chartDrawUtil.setWidthHeight(canvasRect.width, canvasRect.height);
     this.chartDrawUtil.redrawChart(this.rValue);
+    
+    this.pointService.getAllPoints().subscribe({
+      next: (points: PointData[]) => {
+        console.log(points);
+        this.data.set(points);
+      }
+    });
   }
 
   private setupResizeObserver() {
@@ -72,16 +87,51 @@ export class Main implements OnInit, OnDestroy {
   }
 
   rSelected() {
-    this.isRError.set(false);
     let rValidated = checkR(this.rawRValue);
 
+    this.validateField(rValidated, this.isRError, this.rErrorText);
+
     if(!rValidated.isValid) {
-      this.rErrorText.set(rValidated.message);
-      this.isRError.set(true);
       return;
     }
 
     this.rValue = rValidated.parsedValue;
     this.chartDrawUtil.redrawChart(this.rValue);
+  }
+
+  private validateField(fieldValidationData: ValidationData, fieldErrorSignal: WritableSignal<boolean>, fieldErrorText: WritableSignal<string>) {
+    fieldErrorSignal.set(fieldValidationData.isValid);
+    
+    if(!fieldValidationData.isValid) {
+      fieldErrorText.set(fieldValidationData.message);
+    }
+
+  }
+
+  onSubmit() {
+    let xValidated = checkX(this.rawXValue);
+    let yValidated = checkY(this.rawYValue);
+    let rValidated = checkR(this.rawRValue);
+
+    this.validateField(xValidated, this.isXError, this.xErrorText);
+    this.validateField(yValidated, this.isYError, this.yErrorText);
+    this.validateField(rValidated, this.isRError, this.rErrorText);
+
+    if(xValidated.isValid && yValidated.isValid && rValidated.isValid) {
+      this.sendPoint(xValidated.parsedValue, yValidated.parsedValue, rValidated.parsedValue);
+    }
+  }
+
+  sendPoint(x: number, y: number, r: number) {
+    this.pointService.sendPoint({
+      x: x,
+      y: y,
+      r: r
+    }).subscribe({
+      next: (point: PointData) => {
+        console.log(point);
+        this.data.update(points => points.concat(point))
+      }
+    });
   }
 }

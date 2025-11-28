@@ -7,6 +7,20 @@ $table-corner-radius: 10px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-section {
+  flex: 0 0 7%;
+}
+
+.content-section {
+  flex: 1;
+}
+
 .input {
   display: block;
   text-align: center;

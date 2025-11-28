@@ -1,94 +1,96 @@
+<div class="app-container">
+    <app-mainheader [username]="username()" class="header-section"></app-mainheader>
+    <div class="main-div content-section">
+        <div class="input">
+            <div class="input-div">
+                <div class="input-head">
+                    <p>Выберите: Y, X, R</p>
+                </div>
+                <div id="y-input" class="bottom-filed-border field-container">
+                    <div class="field-div">
+                        <p>Y:</p>
+                        <input [class.error-field]="isYError()" (click)="yFieldClick()" [(ngModel)]="rawYValue" class="input-field" type="text" placeholder="Введите Y (от -5 до 5)">
+                    </div>
+                    @if (isYError()) {
+                        <p class="error-text">{{yErrorText()}}</p>
+                    }
+                </div>
+                <div id="x-input" class="field-container bottom-filed-border ">
+                    <div class="field-div">
+                        <p>X:</p>
+                        <select [class.error-field]="isXError()"  [(ngModel)]="rawXValue" (click)="xFieldClick()" id="x-select" class="input-select">
+                            <option>-3</option>
+                            <option>-2</option>
+                            <option>-1</option>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    @if (isXError()) {
+                        <p class="error-text">{{xErrorText()}}</p>
+                    }
+                </div>
+                <div id="r-input" class="field-container">
+                    <div class="field-div">
+                        <p>R:</p>
+                        <select [class.error-field]="isRError()" [(ngModel)]="rawRValue" (change)="rSelected()" id="r-select" class="input-select">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    @if (isRError()) {
+                        <p class="error-text">{{rErrorText()}}</p>
+                    }
+                </div>
+            </div>
 
-<div class="main-div">
-    <div class="input">
-        <div class="input-div">
-            <div class="input-head">
-                <p>Выберите: Y, X, R</p>
-            </div>
-            <div id="y-input" class="bottom-filed-border field-container">
-                <div class="field-div">
-                    <p>Y:</p>
-                    <input [class.error-field]="isYError()" (click)="yFieldClick()" [(ngModel)]="rawYValue" class="input-field" type="text" placeholder="Введите Y (от -5 до 5)">
-                </div>
-                @if (isYError()) {
-                    <p class="error-text">{{yErrorText()}}</p>
-                }
-            </div>
-            <div id="x-input" class="field-container bottom-filed-border ">
-                <div class="field-div">
-                    <p>X:</p>
-                    <select [class.error-field]="isXError()"  [(ngModel)]="rawXValue" (click)="xFieldClick()" id="x-select" class="input-select">
-                        <option>-3</option>
-                        <option>-2</option>
-                        <option>-1</option>
-                        <option>0</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-                @if (isXError()) {
-                    <p class="error-text">{{xErrorText()}}</p>
-                }
-            </div>
-            <div id="r-input" class="field-container">
-                <div class="field-div">
-                    <p>R:</p>
-                    <select [class.error-field]="isRError()" [(ngModel)]="rawRValue" (change)="rSelected()" id="r-select" class="input-select">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-                @if (isRError()) {
-                    <p class="error-text">{{rErrorText()}}</p>
-                }
-            </div>
+            <button class="sumbit" (click)="onSubmit()">Отправить</button>
         </div>
 
-        <button class="sumbit" (click)="onSubmit()">Отправить</button>
-    </div>
+        <div class="chart-div">
+            <canvas #chart id="chart" (click)="onGraphClick($event)"></canvas>
+        </div>
 
-    <div class="chart-div">
-        <canvas #chart id="chart" (click)="onGraphClick($event)"></canvas>
-    </div>
-
-    <div class="table-div">
-        <table id="result-table">
-            <thead>
-                <tr>
-                    <th>Y</th>
-                    <th>X</th>
-                    <th>R</th>
-                    <th>Попадание</th>
-                    <th>Время начала</th>
-                    <th>Время, мс</th>
-                </tr>
-           </thead>
-           <tbody>
-                @for(point of points(); track $index) {
+        <div class="table-div">
+            <table id="result-table">
+                <thead>
                     <tr>
-                        <th>{{point.y}}</th> 
-                        <th>{{point.x}}</th> 
-                        <th>{{point.r}}</th> 
-                         @if(point.isHit) {
-                            <th>Попадание</th>
-                        }
-                        @else {
-                            <th>Мимо</th>
-                        }
-                        <th>{{point.startTime}}</th>
-                        <th>{{point.executionTime}}</th>
+                        <th>Y</th>
+                        <th>X</th>
+                        <th>R</th>
+                        <th>Попадание</th>
+                        <th>Время начала</th>
+                        <th>Время, мс</th>
                     </tr>
-                }
-                @empty {
-                    <tr><td colspan="6">Нет данных</td></tr>
-                }
-           </tbody>
-        </table>
+            </thead>
+            <tbody>
+                    @for(point of points(); track $index) {
+                        <tr>
+                            <th>{{point.y}}</th> 
+                            <th>{{point.x}}</th> 
+                            <th>{{point.r}}</th> 
+                            @if(point.isHit) {
+                                <th>Попадание</th>
+                            }
+                            @else {
+                                <th>Мимо</th>
+                            }
+                            <th>{{point.startTime}}</th>
+                            <th>{{point.executionTime}}</th>
+                        </tr>
+                    }
+                    @empty {
+                        <tr><td colspan="6">Нет данных</td></tr>
+                    }
+            </tbody>
+            </table>
+        </div>
     </div>
 </div>

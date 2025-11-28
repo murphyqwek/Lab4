@@ -1,0 +1,64 @@
+$margin: 5px;
+
+span {
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+    align-items: center;
+    background-color: rgb(200, 72, 226);    
+    color: #eee;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 100%;
+    padding: 0px 5px 0px 5px;
+}
+
+#logout {
+    border: none;
+    border-radius: 0;
+    height: 30px;
+    width: 150px;
+    animation: unhover 0.5s forwards;
+    background-color: black;
+    color: white;
+}
+
+#logout:hover {
+    animation: hover 0.5s forwards;
+    cursor: pointer;
+}
+
+@keyframes hover {
+  from {background-color: black; color: white;}
+  to {background-color: white; color:black}
+}
+
+@keyframes unhover {
+  from {background-color: white; color:black}
+  to {background-color: black; color: white;}
+}
+
+:host {
+    height: 100%;
+    width: 100%;
+}
+
+
+
+@media (min-width: 1177px) {
+    span {
+        font-size: 24px;
+    }
+}
+
+
+@media (min-width: 807px) and (max-width: 1176px) {
+    span {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 806px) {
+    span {
+        font-size: 14px;
+    }
+}

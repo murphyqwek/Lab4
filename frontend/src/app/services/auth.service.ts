@@ -58,6 +58,25 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
   }
+
+  getUsername(): string {
+    let token = this.getToken();
+
+    if(!token) {
+      return "";
+    }
+
+    const decodeToken = jwtDecode(token);
+
+    let username = decodeToken.sub;
+
+    if(username) {
+      return username;
+    }
+    else {
+      return "";
+    }
+  }
   
   private isTokenExpired(token: string): boolean {
     let decodedToken = jwtDecode(token);

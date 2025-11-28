@@ -6,10 +6,12 @@ import { PointService } from '../../services/point.service';
 import { PointData } from '../../interfaces/point.data';
 import { ValidationData } from '../../interfaces/validate.data';
 import { Header } from "../header/header";
+import { Mainheader } from "../mainheader/mainheader";
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-main',
-  imports: [FormsModule, Header],
+  imports: [FormsModule, Mainheader],
   templateUrl: './main.html',
   styleUrl: './main.scss',
 })
@@ -34,15 +36,17 @@ export class Main implements OnInit, OnDestroy {
   yErrorText = signal("");
   xErrorText = signal("");
   rErrorText = signal("");
+  username = signal("")
 
   pointsUpdated = effect(() =>{
     this.chartDrawUtil.drawDots(this.points());
   });
 
-  constructor(private pointService: PointService) {}
+  constructor(private pointService: PointService, private authService: AuthService) {}
 
   ngOnInit() {
     this.chart = this.canvas.nativeElement;
+    this.username.set(this.authService.getUsername());
 
     this.setupResizeObserver();
 

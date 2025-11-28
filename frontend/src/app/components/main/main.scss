@@ -128,16 +128,16 @@ td, th, tr {
   border: 1px solid #3c3c3c;
 }
 
-th {
+thead th {
   background: rgba(63, 94, 251, 1);
   color: white;
 }
 
-th:first-child {
+thead th:first-child {
   border-top-left-radius: $table-corner-radius - 1px;
 }
 
-th:last-child {
+thead th:last-child {
   border-top-right-radius: $table-corner-radius - 1px;
 }
 

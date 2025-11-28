@@ -4,10 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CredentialsPayload } from '../../interfaces/credential.payload';
 import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Header } from "../header/header";
 
 @Component({
   selector: 'app-credentials',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Header],
   templateUrl: './credentials.html',
   styleUrl: './credentials.scss',
 })

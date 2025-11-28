@@ -5,10 +5,11 @@ import { checkX, checkY, checkR} from '../../utils/chartValidation';
 import { PointService } from '../../services/point.service';
 import { PointData } from '../../interfaces/point.data';
 import { ValidationData } from '../../interfaces/validate.data';
+import { Header } from "../header/header";
 
 @Component({
   selector: 'app-main',
-  imports: [FormsModule],
+  imports: [FormsModule, Header],
   templateUrl: './main.html',
   styleUrl: './main.scss',
 })

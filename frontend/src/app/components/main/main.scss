@@ -19,6 +19,7 @@ $table-corner-radius: 10px;
 
 .content-section {
   flex: 1;
+  padding: 5px 0px 0px 0px;
 }
 
 .input {
@@ -118,8 +119,12 @@ input {
 }
 
 .chart-div {
+  display: flex;
+  flex-direction: column;
   text-align: center; 
+  align-items: center;
 }
+
 
 
 #chart {
@@ -211,6 +216,8 @@ thead th:last-child {
     height: 100%;
     align-items: center;
   }
+
+
 
   #result-table {
     margin: auto;

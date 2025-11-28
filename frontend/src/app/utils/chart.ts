@@ -172,7 +172,7 @@ export class Chart {
         });
     }
 
-    onGraphClick(event: MouseEvent, r: number, sendPoint: (x: number, y: number, r: number) => void) {
+    onGraphClick(event: MouseEvent, r: number, sendPoint: (x: number, y: number, r: number) => void, setError: (message: string) => void) {
         const canvasRect = this.canvas.getBoundingClientRect();
         const xClick = event.clientX - canvasRect.left;
         const yClick = event.clientY - canvasRect.top;
@@ -198,6 +198,19 @@ export class Chart {
             return;
         }
 
+        if(!rValidated.isValid) {
+            setError(rValidated.message);
+            return;
+        }
 
+        if(!xValidated.isValid) {
+            setError(xValidated.message);
+            return;
+        }
+
+        if(!yValidated.isValid) {
+            setError(yValidated.message);
+            return;
+        }
     }
 }

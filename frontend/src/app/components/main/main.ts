@@ -33,6 +33,8 @@ export class Main implements OnInit, OnDestroy {
   isXError = signal(false);
   isRError = signal(false);
 
+  graphError = signal("");
+
   yErrorText = signal("");
   xErrorText = signal("");
   rErrorText = signal("");
@@ -145,7 +147,7 @@ export class Main implements OnInit, OnDestroy {
 
   onGraphClick(event: MouseEvent): void {
     this.chartDrawUtil.onGraphClick(event, this.rValue, 
-      (x: number, y: number, r: number) => this.sendPoint(x, y, r));
+      (x: number, y: number, r: number) => this.sendPoint(x, y, r), (message: string) => this.graphError.set(message));
   }
 
 }

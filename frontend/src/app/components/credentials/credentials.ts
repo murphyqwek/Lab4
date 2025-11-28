@@ -52,10 +52,10 @@ export class Credentials implements OnInit {
 
   linkClicked() {
     if(this.isLogin()) {
-      this.router.navigate(['login']);
+      this.router.navigate(['register']);
     }
     else {
-      this.router.navigate(['register']);
+      this.router.navigate(['login']);
     }
   }
 

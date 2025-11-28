@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { jwtDecode } from "jwt-decode";
-import { CredentialsPayload } from './CredentialPaylload';
+import { CredentialsPayload } from '../interfaces/credential.payload';
 import { HttpClient } from '@angular/common/http'; 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs';

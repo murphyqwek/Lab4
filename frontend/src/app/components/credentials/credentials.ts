@@ -1,8 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CredentialsPayload } from '../../services/CredentialPaylload';
-import { AuthService } from '../../services/AuthService';
+import { CredentialsPayload } from '../../interfaces/credential.payload';
+import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

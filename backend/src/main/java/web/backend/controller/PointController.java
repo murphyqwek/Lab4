@@ -6,6 +6,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import web.backend.dto.PointDTO;
 import web.backend.dto.PointRequestDTO;
 import web.backend.model.Point;
 import web.backend.model.UserCredentials;
@@ -13,6 +14,7 @@ import web.backend.service.PointService;
 import web.backend.service.UserService;
 import web.backend.util.Secured;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("points")
@@ -39,7 +41,9 @@ public class PointController {
 
         Point point = pointService.addPoint(pointRequest, user, startTime);
 
-        return Response.status(Response.Status.CREATED).entity(point).build();
+        var pointDTO = new PointDTO(point);
+
+        return Response.status(Response.Status.CREATED).entity(pointDTO).build();
     }
 
     @GET
@@ -50,7 +54,9 @@ public class PointController {
 
         List<Point> points = pointService.getAllPoints(username);
 
-        return Response.status(Response.Status.OK).entity(points).build();
+        List<PointDTO> pointDTOList = points.stream().map(PointDTO::new).toList();
+
+        return Response.status(Response.Status.OK).entity(pointDTOList).build();
     }
 
     @DELETE

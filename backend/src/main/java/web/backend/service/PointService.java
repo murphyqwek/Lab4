@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.SecurityContext;
+import web.backend.dto.PointDTO;
 import web.backend.dto.PointRequestDTO;
 import web.backend.model.Point;
 import web.backend.model.UserCredentials;

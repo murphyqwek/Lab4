@@ -73,28 +73,37 @@
                         <th>Время начала</th>
                         <th>Время, мс</th>
                     </tr>
-            </thead>
-            <tbody>
-                    @for(point of points(); track $index) {
+                </thead>
+                <tbody>
+                    @for(point of paginatedPoints; track $index) {
                         <tr>
-                            <th>{{point.y}}</th> 
-                            <th>{{point.x}}</th> 
-                            <th>{{point.r}}</th> 
+                            <td>{{point.y}}</td> 
+                            <td>{{point.x}}</td> 
+                            <td>{{point.r}}</td> 
                             @if(point.isHit) {
-                                <th>Попадание</th>
+                                <td>Попал</td>
                             }
                             @else {
-                                <th>Мимо</th>
+                                <td>Мимо</td>
                             }
-                            <th>{{point.startTime}}</th>
-                            <th>{{point.executionTime}}</th>
+                            <td>{{point.startTime}}</td>
+                            <td>{{point.executionTime}}</td>
                         </tr>
                     }
                     @empty {
                         <tr><td colspan="6">Нет данных</td></tr>
                     }
-            </tbody>
+                </tbody>
             </table>
+            @if (points().length > pageSize) {
+                <div class="pagination">
+                    <button class="page-btn" (click)="prevPage()" [disabled]="currentPage === 0">Назад</button>
+                    <span class="page-info">Страница {{currentPage + 1}} из {{totalPages}}</span>
+                    <button class="page-btn" (click)="nextPage()" [disabled]="currentPage === totalPages - 1">Вперед</button>
+                </div>
+            }
         </div>
+
+
     </div>
 </div>

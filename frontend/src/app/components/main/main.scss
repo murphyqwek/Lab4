@@ -222,6 +222,8 @@ thead th:last-child {
   #result-table {
     margin: auto;
     min-width: 60%;
+    max-height: 200px;
+    overflow-y: auto;
   }
 
 }
